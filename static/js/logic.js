@@ -139,7 +139,7 @@ function createMap(earthquakes) {
 
 var myMap = L.map("map", {
   center: [36.77, -119.41],
-  zoom: 6
+  zoom: 5
   });
 
 
@@ -155,19 +155,21 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 
 var url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
 
-d3.json(url, function(data){
-  createFeatures(data.features);
+
+d3.json(url, function(data) {
+  L.geoJSON(data, {
+    onEachFeature: function(feature, layer) {
+      mag = feature.properties.mag;
+      if (mag > 1) {
+        console.log(mag)
+      }
+
+      layer.bindPopup("<h3>" + feature.properties.place + "</h3><hr><p>" + 
+      new Date(feature.properties.time) + "</p><hr><p><strong>Magnitude: </strong>" + 
+      feature.properties.mag + "</p>");
+    }
+  }).addTo(myMap);
 });
 
 
-function createFeatures(earthquakeData) {
-  function onEachFeature(feature, layer) {
-    layer.bindPopup("<h3>" + feature.properties.place + "</h3><hr><p>" + 
-    new Date(feature.properties.time) + "</p>");
-  }
-
-  var earthquakes = L.geoJSON(earthquakeData, {
-    onEachFeature: onEachFeature
-  }).addTo(myMap);
-}
 
