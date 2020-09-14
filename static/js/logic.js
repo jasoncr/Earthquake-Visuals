@@ -157,19 +157,25 @@ var url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.ge
 
 
 d3.json(url, function(data) {
+  first_entry = data.features[0]
+  coordinates = []
   L.geoJSON(data, {
     onEachFeature: function(feature, layer) {
       mag = feature.properties.mag;
-      if (mag > 1) {
-        console.log(mag)
-      }
-
+      coordinates.push(feature.geometry.coordinates);
+      //console.log(coordinates)
+      // if (mag > 5) {
+      //   console.log(mag + feature.properties.place)
+      //   console.log(feature.geometry.coordinates)
+      // }
       layer.bindPopup("<h3>" + feature.properties.place + "</h3><hr><p>" + 
       new Date(feature.properties.time) + "</p><hr><p><strong>Magnitude: </strong>" + 
       feature.properties.mag + "</p>");
     }
   }).addTo(myMap);
+  console.log(coordinates)
 });
+
 
 
 
