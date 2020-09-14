@@ -31,13 +31,15 @@
 ////-----------------------------Above is for colors---------------------------
 
 
-
-
+/*
 var url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
 
 
 // Perform a GET request to the query URL
 d3.json(url, function(data) {
+  console.log(data)
+
+
   // Once we get a response, send the data.features object to the createFeatures function
   createFeatures(data.features);
 });
@@ -58,6 +60,7 @@ function createFeatures(earthquakeData) {
   });
 
   console.log(earthquakes)
+  console.log("test")
 
   // Sending our earthquakes layer to the createMap function
   createMap(earthquakes);
@@ -73,14 +76,21 @@ function createMap(earthquakes) {
   });
 
   // // Create a baseMaps object to hold the lightmap layer
-  var baseMaps = {
+  var baseMap = {
     "Light Map": lightmap
   };
 
   // Create overlay object to hold our overlay layer
-  var overlayMaps = {
+  var overlayMap = {
     Earthquakes: earthquakes
   };
+
+  // Create the map object with options
+  var map = L.map("map", {
+    center: [40.73, -74.0059],
+    zoom: 12,
+    layers: [baseMap, overlayMap]
+  });
 
   // Create our map, giving it the streetmap and earthquakes layers to display on load
   // var map = L.map("map", {
@@ -120,7 +130,44 @@ function createMap(earthquakes) {
   // Create a layer control
   // Pass in our baseMaps and overlayMaps
   // Add the layer control to the map
-  L.control.layers(baseMaps, overlayMaps, {
+  L.control.layers(overlayMap, {
     collapsed: false
   }).addTo(map);
 }
+
+*/
+
+var myMap = L.map("map", {
+  center: [36.77, -119.41],
+  zoom: 6
+  });
+
+
+L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+  attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
+  tileSize: 512,
+  maxZoom: 18,
+  zoomOffset: -1,
+  id: "mapbox/streets-v11",
+  accessToken: API_KEY
+}).addTo(myMap);
+
+
+var url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
+
+d3.json(url, function(data){
+  createFeatures(data.features);
+});
+
+
+function createFeatures(earthquakeData) {
+  function onEachFeature(feature, layer) {
+    layer.bindPopup("<h3>" + feature.properties.place + "</h3><hr><p>" + 
+    new Date(feature.properties.time) + "</p>");
+  }
+
+  var earthquakes = L.geoJSON(earthquakeData, {
+    onEachFeature: onEachFeature
+  }).addTo(myMap);
+}
+
