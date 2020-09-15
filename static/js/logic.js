@@ -1,7 +1,7 @@
 // Create intial map object
 var myMap = L.map("map", {
   center: [36.77, -119.41],
-  zoom: 5
+  zoom: 4
   });
 
 // Adding street map layer
