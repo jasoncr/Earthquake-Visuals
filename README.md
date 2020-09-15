@@ -6,4 +6,4 @@ I wanted to visualize the earthquakes on a mapbox map. I wanted each earthquake 
 
 To complete this task, I used an html to display, a small amount of css to style, and a JavaScript file. The JS file uses mapbox so to run it, you will need a mapbox API. The website is responsive to user input of zooming and dragging the map. Below is an image of the webpage. 
 
-<img src= "/Images/screenshot.png" width="800">
+<img src= "/Images/screenshot.png" width="1000">
