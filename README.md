@@ -1,4 +1,4 @@
-# leaflet-challenge
+# Earthquake-Visuals
 
 In this challenge I took on the roll of a developer and visualized a dynamic dataset in geojson format about the most recent earthquakes from the past week. The data was pulled from https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php. 
 
